@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
@@ -22,8 +23,11 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private var adapter: TasksAdapter? = null
-    private val viewModel: MainViewModel by lazy {
-        MainModule.provideMainViewModel()
+    private val viewModel: MainViewModel by viewModels {
+        MainModule.MainViewModelFactory(
+            getAllTasksForDayUseCase = MainModule.getAllTasksForDayUseCase,
+            mapper = MainModule.taskViewMapper
+        )
     }
 
     private val sharedViewModel: SharedViewModel by lazy {
@@ -64,6 +68,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun createObservers() {
+        println("oooooooo CREAT OBSERVERS")
+
         lifecycleScope.launch {
             viewModel.tasks.collect { dataPair ->
 

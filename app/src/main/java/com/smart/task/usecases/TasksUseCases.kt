@@ -12,8 +12,17 @@ class GetAllTasksUseCase(private val repository: TaskRepository){
 }
 
 class GetAllTasksForDayUseCase(private val repository: TaskRepository) {
-    suspend operator fun invoke(date: Long): List<Task> {
-        val dayStartMillis = getDayStartMillis(date)
+
+    private var currentDay = System.currentTimeMillis()
+
+    fun setDay(day: Long) {
+        currentDay = day
+    }
+
+    fun getDay(): Long = currentDay
+
+    suspend operator fun invoke(): List<Task> {
+        val dayStartMillis = getDayStartMillis(currentDay)
         val dayEndMillis = dayStartMillis + (24 * 60 * 60 * 1000) - 1 // End of the day
 
         println("ooooo ------->: ${Date(dayStartMillis)}")
