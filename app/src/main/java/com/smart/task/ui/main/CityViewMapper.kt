@@ -1,11 +1,6 @@
 package com.smart.task.ui.main
 
-import com.smart.task.base.ListMapper
-import com.smart.task.base.Merger
-import com.smart.task.domain.City
-import com.smart.task.domain.ForecastData
-
-data class CityViewItem(
+data class TaskViewItem(
     val id: Int,
     val name: String,
     val icon: String,
@@ -15,8 +10,8 @@ data class CityViewItem(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-        other as CityViewItem
-        return name == other.name
+        other as TaskViewItem
+        return id == other.id
     }
 
     override fun hashCode(): Int {
@@ -24,37 +19,3 @@ data class CityViewItem(
     }
 }
 
-class CityMerger : Merger<ForecastData, City> {
-    override fun merge(item1: ForecastData, item2: City): City {
-        // Update the City object with the new forecastData
-        val itm = item2.copy(forecastData = item1)
-        return itm
-    }
-}
-
-class CityViewMapper {
-    fun map(city: City): CityViewItem {
-        val temperature = city.forecastData?.currentTemperature?.let {
-            "$it°C"
-        } ?: "N/A"
-        val icon = city.forecastData?.icon ?: ""
-        return CityViewItem(
-            id = city.hashCode(),
-            name = city.name,
-            icon = icon,
-            temperature = temperature
-        )
-    }
-}
-
-
-class CityListViewMapper: ListMapper<City, CityViewItem> {
-
-    private val cityViewMapper = CityViewMapper()
-
-    override fun map(items: List<City>): List<CityViewItem> {
-        return items.map {
-            cityViewMapper.map(it)
-        }
-    }
-}

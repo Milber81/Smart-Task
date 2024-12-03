@@ -1,8 +1,9 @@
 package com.smart.task.data.datasources.openweather
 
 import com.smart.task.base.SingleMapper
+import com.smart.task.data.ApiClient
 import com.smart.task.data.models.WeatherResponse
-import com.smart.task.domain.City
+import com.smart.task.domain.Task
 import com.smart.task.domain.ForecastData
 import com.smart.task.utils.API_KEY
 import com.smart.task.utils.LANG
@@ -16,14 +17,14 @@ import org.junit.Test
 import retrofit2.Response
 
 
-class CityInfoServiceTest {
+class TaskInfoServiceTest {
 
     private lateinit var apiClient: ApiClient
     private lateinit var dispatcher: CoroutineDispatcher
     private lateinit var mapper: SingleMapper<WeatherResponse, ForecastData>
-    private lateinit var cityInfoService: CityInfoService
+    private lateinit var cityInfoService: TasksService
 
-    private val mockCity = City("Sabac", latitude = 10f, longitude = 20f, "Serbia", "RS")
+    private val mockCity = Task("Sabac", latitude = 10f, longitude = 20f, "Serbia", "RS")
     private val mockWeatherResponse = mockk<WeatherResponse>()
     private val mockForecastData = mockk<ForecastData>()
 
@@ -33,7 +34,7 @@ class CityInfoServiceTest {
         dispatcher = Dispatchers.Unconfined
         mapper = mockk()
 
-        cityInfoService = CityInfoService(apiClient, dispatcher, mapper)
+        cityInfoService = TasksService(apiClient, dispatcher, mapper)
     }
 
     @Test

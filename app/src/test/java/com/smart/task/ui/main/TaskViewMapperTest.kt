@@ -1,12 +1,12 @@
 package com.smart.task.ui.main
 
-import com.smart.task.domain.City
+import com.smart.task.domain.Task
 import com.smart.task.domain.ForecastData
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
 
-class CityViewMapperTest {
+class TaskViewMapperTest {
 
     private val cityViewMapper = CityViewMapper()
 
@@ -22,7 +22,7 @@ class CityViewMapperTest {
             precipitationType = "Rain"
         )
 
-        val city = City(
+        val city = Task(
             latitude = 12.34f,
             longitude = 56.78f,
             name = "Sabac",
@@ -41,7 +41,7 @@ class CityViewMapperTest {
 
     @Test
     fun `map should handle City with no forecastData gracefully`() {
-        val city = City(
+        val city = Task(
             latitude = 12.34f,
             longitude = 56.78f,
             name = "Sabac",

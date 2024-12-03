@@ -12,7 +12,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.smart.task.R
 import com.smart.task.databinding.FragmentDailyDetailsBinding
 import com.smart.task.ui.UiModule
-import com.smart.task.ui.helpers.getImageUrl
 import com.smart.task.ui.helpers.loadIcon
 import kotlinx.coroutines.launch
 
@@ -35,19 +34,6 @@ class DailyDetailsFragment : BottomSheetDialogFragment() {
 
         val vm = UiModule.provideMainViewModel
 
-        lifecycleScope.launch {
-            vm.data.collect {
-                binding.cityName.text = it?.name
-                binding.averageTemperature.text =
-                    it?.forecastData?.currentTemperature.toString() + "°C"
-                binding.lowestTemp.text = it?.forecastData?.low.toString() + "°C"
-                binding.highestTemp.text = it?.forecastData?.high.toString() + "°C"
-                val url = getImageUrl(it?.forecastData?.icon ?: "")
-                loadIcon(url, binding.dayImage)
-                binding.precipitation.text =
-                    "Precipitation:\n ${it?.forecastData?.precipitationType} ${it?.forecastData?.precipitationLevel} mm/h"
-            }
-        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

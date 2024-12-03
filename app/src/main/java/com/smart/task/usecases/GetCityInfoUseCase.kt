@@ -1,12 +1,10 @@
 package com.smart.task.usecases
 
-import com.smart.task.domain.City
-import com.smart.task.domain.ForecastData
-import com.smart.task.domain.repositories.CityInfoRepository
+import com.smart.task.domain.Task
+import com.smart.task.domain.repositories.TaskRepository
 
-class GetCityInfoUseCase(
-    private val repository: CityInfoRepository
-) {
-    suspend fun getCityInfo(city: City): ForecastData =
-        repository.getCityWeatherInfo(city)
+class GetAllTasksUseCase(private val repository: TaskRepository){
+    suspend fun getAllTasks(): List<Task>{
+        return repository.getAll()
+    }
 }

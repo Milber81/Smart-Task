@@ -1,11 +1,11 @@
 package com.smart.task.ui.main
 
-import com.smart.task.domain.City
+import com.smart.task.domain.Task
 import com.smart.task.domain.ForecastData
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class CityMergerTest {
+class TaskMergerTest {
 
     @Test
     fun `merge should update City with ForecastData`() {
@@ -19,7 +19,7 @@ class CityMergerTest {
             precipitationType = "Snow"
         )
 
-        val city = City(
+        val city = Task(
             latitude = 12.34f,
             longitude = 56.78f,
             name = "Sabac",

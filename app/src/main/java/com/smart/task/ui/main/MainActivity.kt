@@ -14,17 +14,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.smart.task.databinding.ActivityMainBinding
-import com.smart.task.domain.City
 import com.smart.task.ui.AddCityFragment
 import com.smart.task.ui.SharedViewModel
 import com.smart.task.ui.UiModule
-import com.smart.task.ui.dailyDetails.DailyDetailsFragment
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private var adapter: CitiesAdapter? = null
+    private var adapter: TasksAdapter? = null
     private val viewModel: MainViewModel by lazy {
         MainModule.provideMainViewModel()
     }
@@ -69,13 +66,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun addCity(city: City) {
-        viewModel.addCity(city)
-    }
-
-    private fun removeCity(city: CityViewItem) {
-        viewModel.removeCity(city)
-    }
 
     private fun createObservers() {
         viewModel.loadingState.observe(this) {
@@ -84,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            viewModel.cities.collect { dataPair ->
+            viewModel.tasks.collect { dataPair ->
 
                 if (adapter == null) {
                     val layoutManager = LinearLayoutManager(this@MainActivity)
@@ -98,10 +88,8 @@ class MainActivity : AppCompatActivity() {
                         is UpdateDataPolicy.REMOVE -> adapter?.removeCity(cityViewItems[0])
                         is UpdateDataPolicy.SOURCE -> {
                             if(adapter == null && cityViewItems.isNotEmpty()) {
-                                adapter = CitiesAdapter(cityViewItems.toMutableList(), {
-                                    showDailyDetails(it)
+                                adapter = TasksAdapter(cityViewItems.toMutableList(), {
                                 }, {
-                                    removeCity(it)
                                 })
                                 binding.rec.adapter = adapter
                             }
@@ -139,33 +127,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideProgressBar() {
         binding.progressBar.visibility = View.GONE
-    }
-
-    private fun showDailyDetails(
-        cityViewItem: CityViewItem
-    ) {
-        lifecycleScope.launch {
-            viewModel.city.collect { city ->
-                city?.let {
-
-                    sharedViewModel.postCity(it)
-                    this.cancel() // Cancels the coroutine
-                    val dailyDetailsFragment = DailyDetailsFragment()
-
-                    if (dailyDetailsFragment.isAdded) {
-                        dailyDetailsFragment.dismiss()
-                    }
-
-                    dailyDetailsFragment.show(supportFragmentManager, DailyDetailsFragment.TAG)
-                } ?: run {
-                    Toast.makeText(
-                        this@MainActivity, "Forecast data not available", Toast.LENGTH_LONG
-                    ).show()
-                    cancel()
-                }
-            }
-        }
-        viewModel.getCity(cityViewItem)
     }
 
     private fun showNoInternetMessage() {

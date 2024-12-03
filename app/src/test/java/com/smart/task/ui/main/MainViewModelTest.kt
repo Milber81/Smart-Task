@@ -5,7 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import com.smart.task.base.ListMapper
 import com.smart.task.base.Merger
-import com.smart.task.domain.City
+import com.smart.task.domain.Task
 import com.smart.task.domain.ForecastData
 import com.smart.task.domain.repositories.CitiesRepository
 import com.smart.task.usecases.GetCityInfoUseCase
@@ -32,9 +32,9 @@ class MainViewModelTest {
     private val testDispatcher = StandardTestDispatcher()
 
     private val citiesRepository = mockk<CitiesRepository>()
-    private val listMapper = mockk<ListMapper<City, CityViewItem>>()
+    private val listMapper = mockk<ListMapper<Task, CityViewItem>>()
     private val getCityInfoUseCase = mockk<GetCityInfoUseCase>()
-    private val merger = mockk<Merger<ForecastData, City>>()
+    private val merger = mockk<Merger<ForecastData, Task>>()
 
     private lateinit var viewModel: MainViewModel
 
@@ -65,7 +65,7 @@ class MainViewModelTest {
     @Test
     fun `getCities fetches data and updates SharedFlow correctly`() = runTest {
         val mockCities = listOf(
-            City("City1", 33f, 44f, "Serbia", "RS"), City("City2", 34f, 45f, "Serbia", "RS")
+            Task("City1", 33f, 44f, "Serbia", "RS"), Task("City2", 34f, 45f, "Serbia", "RS")
         )
         val mockCityViewItems = listOf(
             CityViewItem(1, "City1", "icon1", "33"), CityViewItem(2, "City2", "icon2", "34")
@@ -103,13 +103,13 @@ class MainViewModelTest {
     @Test
     fun `addCity adds a city and updates StateFlow correctly`() = runTest(timeout = 10.seconds) {
         val mockCities = listOf(
-            City("City1", 33f, 44f, "Serbia", "RS"), City("City2", 34f, 45f, "Serbia", "RS")
+            Task("City1", 33f, 44f, "Serbia", "RS"), Task("City2", 34f, 45f, "Serbia", "RS")
         )
         val mockCityViewItems = listOf(
             CityViewItem(1, "City1", "icon1", "33"), CityViewItem(2, "City2", "icon2", "34")
         )
 
-        val newCity = City("City3", 35f, 46f, "Serbia", "RS")
+        val newCity = Task("City3", 35f, 46f, "Serbia", "RS")
         val newCityViewItem = CityViewItem(3, "City3", "icon3", "35")
 
         coEvery { citiesRepository.getAllCities() } returns mockCities
@@ -147,9 +147,9 @@ class MainViewModelTest {
     fun `removeCity removes a city and updates StateFlow correctly`() =
         runTest(timeout = 10.seconds) {
             val mockCities = listOf(
-                City("City1", 33f, 44f, "Serbia", "RS"),
-                City("City2", 34f, 45f, "Serbia", "RS"),
-                City("City3", 35f, 46f, "Serbia", "RS")
+                Task("City1", 33f, 44f, "Serbia", "RS"),
+                Task("City2", 34f, 45f, "Serbia", "RS"),
+                Task("City3", 35f, 46f, "Serbia", "RS")
             )
             val mockCityViewItems = listOf(
                 CityViewItem(1, "City1", "icon1", "33"),
@@ -157,7 +157,7 @@ class MainViewModelTest {
                 CityViewItem(3, "City3", "icon3", "35")
             )
 
-            val newCity = City("City3", 35f, 46f, "Serbia", "RS")
+            val newCity = Task("City3", 35f, 46f, "Serbia", "RS")
             val newCityViewItem = CityViewItem(3, "City3", "icon3", "35")
 
             coEvery { citiesRepository.getAllCities() } returns mockCities

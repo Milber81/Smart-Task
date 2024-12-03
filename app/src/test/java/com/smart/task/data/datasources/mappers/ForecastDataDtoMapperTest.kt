@@ -1,6 +1,6 @@
 package com.smart.task.data.datasources.mappers
 
-import com.smart.task.data.mappers.ForecastDataDtoMapper
+import com.smart.task.data.task.ForecastDataDtoMapper
 import com.smart.task.data.models.Clouds
 import com.smart.task.data.models.Coord
 import com.smart.task.data.models.Main

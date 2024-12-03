@@ -83,6 +83,9 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.8'
     testImplementation 'androidx.fragment:fragment-testing:1.3.6' // for Fragment-related tests
     implementation("androidx.activity:activity-ktx:1.9.3")
+
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+
 }
 
 kapt {

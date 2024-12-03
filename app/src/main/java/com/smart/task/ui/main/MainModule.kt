@@ -1,32 +1,21 @@
 package com.smart.task.ui.main
 
-import com.smart.task.data.datasources.openweather.CityInfoService
-import com.smart.task.data.mappers.ForecastDataDtoMapper
-import com.smart.task.di.CoroutinesModule
-import com.smart.task.di.DataStoreModule
-import com.smart.task.di.NetworkModule
-import com.smart.task.usecases.GetCityInfoUseCase
+import com.smart.task.data.task.TaskRepositoryImpl
+import com.smart.task.di.DataModule
+import com.smart.task.usecases.GetAllTasksUseCase
 
 object MainModule {
 
-    private val apiCityInfoService = CityInfoService(
-        NetworkModule.provideApiClient(),
-        CoroutinesModule.provideCoroutineDispatcher(),
-        ForecastDataDtoMapper()
+    private val tasksRepository = TaskRepositoryImpl(
+        DataModule.dataStoreHelper,
+        DataModule.remoteDataSource
     )
 
     fun provideMainViewModel(): MainViewModel {
-        val getCityInfoUseCase = GetCityInfoUseCase(apiCityInfoService)
-        val dataStoreHelper = DataStoreModule.dataStoreHelper
-        val mapper = CityListViewMapper()
-        val merger = CityMerger()
+        val getAllTasksUseCase = GetAllTasksUseCase(tasksRepository)
 
         return MainViewModel(
-            citiesRepository = dataStoreHelper,
-            getCityInfoUseCase = getCityInfoUseCase,
-            dispatcher = CoroutinesModule.provideCoroutineDispatcher(),
-            mapper,
-            merger
+            getAllTasksUseCase,
         )
     }
 }

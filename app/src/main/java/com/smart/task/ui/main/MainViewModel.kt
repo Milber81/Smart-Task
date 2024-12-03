@@ -6,14 +6,8 @@ import android.net.NetworkCapabilities
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.smart.task.base.ListMapper
-import com.smart.task.base.Merger
-import com.smart.task.domain.City
-import com.smart.task.domain.ForecastData
-import com.smart.task.domain.repositories.CitiesRepository
-import com.smart.task.usecases.GetCityInfoUseCase
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import com.smart.task.domain.Task
+import com.smart.task.usecases.GetAllTasksUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -25,88 +19,21 @@ sealed class UpdateDataPolicy{
 }
 
 class MainViewModel(
-    private val citiesRepository: CitiesRepository,
-    private val getCityInfoUseCase: GetCityInfoUseCase,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
-    private val listMapper: ListMapper<City, CityViewItem>,
-    private val merger: Merger<ForecastData, City>
+    private val getAllTasksUseCase: GetAllTasksUseCase,
 ) : ViewModel() {
 
-    private val citySet: MutableSet<City> by lazy {
-        mutableSetOf()
-    }
+    private val _city = MutableSharedFlow<Task?>()
+    val city: SharedFlow<Task?> get() = _city
 
-    private val _city = MutableSharedFlow<City?>()
-    val city: SharedFlow<City?> get() = _city
-
-    private val _getCities = MutableSharedFlow<Pair<UpdateDataPolicy, List<CityViewItem>>>()
-    val cities: SharedFlow<Pair<UpdateDataPolicy, List<CityViewItem>>> get() = _getCities
+    private val _tasks = MutableSharedFlow<Pair<UpdateDataPolicy, List<TaskViewItem>>>()
+    val tasks: SharedFlow<Pair<UpdateDataPolicy, List<TaskViewItem>>> get() = _tasks
 
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState = _loadingState
 
     init {
-        getCities()
-    }
-
-    private fun getCities() {
-        viewModelScope.launch(dispatcher) {
-            _loadingState.postValue(true)
-            val result = citiesRepository.getAllCities()
-            _getCities.emit(Pair(UpdateDataPolicy.SOURCE, listMapper.map(result)))
-            result.forEach { city ->
-                fetchCityForecast(city)
-            }
-            _loadingState.postValue(false)
-        }
-    }
-
-    private suspend fun fetchCityForecast(city: City) {
         viewModelScope.launch {
-            try {
-                val cityInfo = getCityInfoUseCase.getCityInfo(city)
-                val element = merger.merge(cityInfo, city)
-                val viewItem = listMapper.map(listOf(element))
-                _getCities.emit(Pair(UpdateDataPolicy.ADD, viewItem))
-                citySet.add(element)
-            } catch (e: Exception) {
-                println("oooooo ooError fetching forecast for ${city.name}: $e")
-            }
-        }
-    }
-
-    fun addCity(city: City) {
-        viewModelScope.launch {
-            citiesRepository.addCity(city)
-            _getCities.emit(Pair(UpdateDataPolicy.ADD, listMapper.map(listOf(city))))
-            fetchCityForecast(city)
-        }
-    }
-
-    fun removeCity(city: CityViewItem) {
-        viewModelScope.launch {
-            val mCity = citiesRepository.getAllCities().firstOrNull { it.name == city.name }
-            mCity?.let {
-                citiesRepository.removeCity(it)
-                citySet.add(it)
-                _getCities.emit(Pair(UpdateDataPolicy.REMOVE, listOf(city)))
-            }
-        }
-    }
-
-    fun getCity(cityViewItem: CityViewItem){
-        viewModelScope.launch {
-            if(citySet.isEmpty()){
-                _city.emit(null)
-            }
-            else {
-                val mCity = citySet.firstOrNull { it.name == cityViewItem.name }
-                mCity?.let {
-                    _city.emit(mCity)
-                } ?: run {
-                    _city.emit(null)
-                }
-            }
+            getAllTasksUseCase.getAllTasks()
         }
     }
 
