@@ -39,6 +39,6 @@ object DataModule {
     val remoteDataSource = TasksRemoteService(
         NetworkModule.provideApiClient(),
         CoroutinesModule.provideCoroutineDispatcher(),
-        TasksDtoMapper()
+        TasksDtoMapper(CoroutinesModule.provideDefaultCoroutineDispatcher())
     )
 }

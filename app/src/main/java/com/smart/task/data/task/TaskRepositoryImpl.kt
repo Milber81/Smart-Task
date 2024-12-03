@@ -13,7 +13,6 @@ class TaskRepositoryImpl(
         if (localData.isNotEmpty()) {
             return localData
         }
-        println("ooooooo TaskRepositoryImpl getAll")
         // Fetch from remote if local cache is empty
         val remoteData = remoteDataSource.fetchAll()
         localDataSource.insertAll(remoteData)

@@ -2,7 +2,6 @@ package com.smart.task.di
 
 import com.smart.task.data.ApiClient
 import com.smart.task.utils.BASE_URL
-import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

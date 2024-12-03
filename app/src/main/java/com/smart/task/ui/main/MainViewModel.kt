@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smart.task.domain.Task
+import com.smart.task.usecases.GetAllTasksForTodayUseCase
 import com.smart.task.usecases.GetAllTasksUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -19,11 +20,8 @@ sealed class UpdateDataPolicy{
 }
 
 class MainViewModel(
-    private val getAllTasksUseCase: GetAllTasksUseCase,
+    private val getAllTasksForTodayUseCase: GetAllTasksForTodayUseCase,
 ) : ViewModel() {
-
-    private val _city = MutableSharedFlow<Task?>()
-    val city: SharedFlow<Task?> get() = _city
 
     private val _tasks = MutableSharedFlow<Pair<UpdateDataPolicy, List<TaskViewItem>>>()
     val tasks: SharedFlow<Pair<UpdateDataPolicy, List<TaskViewItem>>> get() = _tasks
@@ -33,7 +31,7 @@ class MainViewModel(
 
     init {
         viewModelScope.launch {
-            getAllTasksUseCase.getAllTasks()
+            val todayTasks = getAllTasksForTodayUseCase.invoke()
         }
     }
 
