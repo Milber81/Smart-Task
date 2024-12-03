@@ -2,7 +2,7 @@ package com.smart.task.ui.main
 
 import com.smart.task.data.task.TaskRepositoryImpl
 import com.smart.task.di.DataModule
-import com.smart.task.usecases.GetAllTasksForTodayUseCase
+import com.smart.task.usecases.GetAllTasksForDayUseCase
 
 object MainModule {
 
@@ -12,10 +12,11 @@ object MainModule {
     )
 
     fun provideMainViewModel(): MainViewModel {
-        val getAllTasksForTodayUseCase = GetAllTasksForTodayUseCase(tasksRepository)
+        val getAllTasksForDayUseCase = GetAllTasksForDayUseCase(tasksRepository)
 
         return MainViewModel(
-            getAllTasksForTodayUseCase,
+            getAllTasksForDayUseCase,
+            TaskViewMapper()
         )
     }
 }

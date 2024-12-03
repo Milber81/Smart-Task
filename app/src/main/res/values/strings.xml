@@ -47,6 +47,8 @@
     <string name="lot_temp">Lot temp</string>
     <string name="high_temp">High temp</string>
     <string name="highest_temp">Highest temp</string>
+    <string name="no_tasks_for_today">No tasks for today!</string>
+    <string name="due_date">Due date</string>
 
     <string-array name="days_of_week">
         <item>Sunday</item>

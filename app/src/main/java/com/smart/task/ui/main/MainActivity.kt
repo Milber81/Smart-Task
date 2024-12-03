@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.smart.task.databinding.ActivityMainBinding
-import com.smart.task.ui.AddCityFragment
+import com.smart.task.domain.Task
 import com.smart.task.ui.SharedViewModel
 import com.smart.task.ui.UiModule
 import kotlinx.coroutines.launch
@@ -40,63 +40,61 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(this.layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.rec) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        val layoutManager = LinearLayoutManager(this@MainActivity)
+        binding.rec.layoutManager = layoutManager
 
-            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                leftMargin = insets.left
-                bottomMargin = insets.bottom
-                rightMargin = insets.right
-                topMargin = insets.top
-            }
+        adapter = TasksAdapter(null, {
 
-            WindowInsetsCompat.CONSUMED
+        }, {
+
+        })
+
+        binding.rec.adapter = adapter
+
+        binding.navigatePrevious.setOnClickListener {
+            viewModel.getTasksForPreviousDay()
+        }
+
+        binding.navigateNext.setOnClickListener {
+            viewModel.getTasksForNextDay()
         }
 
         createObservers()
-
-        binding.addCityButton.setOnClickListener {
-            val addCityFragment = AddCityFragment()
-
-            if (addCityFragment.isAdded) {
-                addCityFragment.dismiss()
-            }
-
-            addCityFragment.show(supportFragmentManager, AddCityFragment.TAG)
-        }
     }
 
 
     private fun createObservers() {
-        viewModel.loadingState.observe(this) {
-            if (it) showProgressBar()
-            else hideProgressBar()
-        }
-
         lifecycleScope.launch {
             viewModel.tasks.collect { dataPair ->
 
-                if (adapter == null) {
-                    val layoutManager = LinearLayoutManager(this@MainActivity)
-                    binding.rec.layoutManager = layoutManager
-                }
+                val taskItems = dataPair.second
+                binding.title.text = dataPair.first
+                println("oooooooo TASKS: $taskItems")
 
-                dataPair.second.let { cityViewItems ->
+                if (taskItems.isEmpty()) {
+                    if(binding.rec.visibility == View.VISIBLE)
+                        binding.rec.visibility = View.GONE
+                    if(binding.noDataTextView.visibility == View.GONE)
+                        binding.noDataTextView.visibility = View.VISIBLE
+                    if(binding.noDataImageView.visibility == View.GONE)
+                        binding.noDataImageView.visibility = View.VISIBLE
+                } else {
+                    println("oooooooo TASKS: ------------------")
+                    adapter?.swapData(taskItems)
+                    if(binding.noDataTextView.visibility == View.VISIBLE)
+                        binding.noDataTextView.visibility = View.GONE
+                    if(binding.noDataImageView.visibility == View.VISIBLE)
+                        binding.noDataImageView.visibility = View.GONE
+                    if(binding.rec.visibility == View.GONE)
+                        binding.rec.visibility = View.VISIBLE
 
-                    when (dataPair.first) {
-                        is UpdateDataPolicy.ADD -> adapter?.updateCity(cityViewItems[0])
-                        is UpdateDataPolicy.REMOVE -> adapter?.removeCity(cityViewItems[0])
-                        is UpdateDataPolicy.SOURCE -> {
-                            if(adapter == null && cityViewItems.isNotEmpty()) {
-                                adapter = TasksAdapter(cityViewItems.toMutableList(), {
-                                }, {
-                                })
-                                binding.rec.adapter = adapter
-                            }
-                        }
-                    }
                 }
             }
+        }
+
+        viewModel.loadingState.observe(this) {
+            if (it) showProgressBar()
+            else hideProgressBar()
         }
     }
 

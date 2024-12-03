@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="@+id/lowestTemp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:tint="@color/card_text"
+        app:tint="@color/main_text"
         tools:tintdob="@android:color/black">
 
     </ImageView>
@@ -85,7 +85,7 @@
         app:layout_constraintStart_toStartOf="@+id/highestTemp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:tint="@color/card_text"
+        app:tint="@color/main_text"
         tools:tint="@android:color/black" />
 
     <TextView

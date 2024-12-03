@@ -3,7 +3,6 @@ package com.smart.task.ui.main
 import android.widget.Button
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.smart.task.ui.AddCityFragment
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
