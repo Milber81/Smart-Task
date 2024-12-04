@@ -67,6 +67,7 @@
             android:fontFamily="@font/amsipro_bold"
             android:textColor="@color/main_text"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -166,15 +167,17 @@
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:text="@string/resolve"
+            android:textColor="@android:color/white"
             app:backgroundTint="@color/green" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnCantResolve"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
+            android:textColor="@android:color/white"
             android:text="@string/can_t_resolve"
             app:backgroundTint="@color/main_text" />
 
