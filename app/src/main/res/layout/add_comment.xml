@@ -34,7 +34,7 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:id="@+id/edtCityName"
+        android:id="@+id/edtComment"
         android:hint="Comment"
         android:inputType="text"
         android:autofillHints="postalAddressLocality"

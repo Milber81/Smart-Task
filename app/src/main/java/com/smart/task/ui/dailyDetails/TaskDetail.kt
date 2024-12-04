@@ -56,32 +56,81 @@ class TaskDetail : Fragment() {
                     dueDate.text = it.date
                     daysLeft.text = it.daysOffset
                     status.text = it.statusText
+                    if (it.comment?.isNotEmpty() == true) {
+                        binding.txtComment.text = it.comment
+                        binding.txtComment.visibility = View.VISIBLE
+                    } else {
+                        binding.divider4.visibility = View.GONE
+                        binding.txtComment.visibility = View.GONE
+                    }
 
-                    when(it.status){
+                    when (it.status) {
                         Task.UNRESOLVED -> {
                             binding.btnResolve.visibility = View.VISIBLE
                             binding.btnCantResolve.visibility = View.VISIBLE
                             statusImage.visibility = View.GONE
                         }
+
                         Task.RESOLVED -> {
                             binding.btnResolve.visibility = View.GONE
                             binding.btnCantResolve.visibility = View.GONE
                             statusImage.setImageResource(R.drawable.sign_resolved)
                             statusImage.visibility = View.VISIBLE
-                            binding.txtTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
-                            dueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
-                            daysLeft.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
-                            status.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
+                            binding.txtTitle.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.green
+                                )
+                            )
+                            dueDate.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.green
+                                )
+                            )
+                            daysLeft.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.green
+                                )
+                            )
+                            status.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.green
+                                )
+                            )
                         }
+
                         Task.CANT_RESOLVE -> {
                             binding.btnResolve.visibility = View.GONE
                             binding.btnCantResolve.visibility = View.GONE
                             statusImage.setImageResource(R.drawable.unresolved_sign)
                             statusImage.visibility = View.VISIBLE
-                            binding.txtTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_text))
-                            dueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_text))
-                            daysLeft.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_text))
-                            status.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_text))
+                            binding.txtTitle.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.main_text
+                                )
+                            )
+                            dueDate.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.main_text
+                                )
+                            )
+                            daysLeft.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.main_text
+                                )
+                            )
+                            status.setTextColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.main_text
+                                )
+                            )
                         }
                     }
                 }
@@ -112,15 +161,15 @@ class TaskDetail : Fragment() {
         }
     }
 
-    fun markTaskResolved(comment: String? = null){
-       comment?.let {
+    fun markTaskResolved(comment: String? = null) {
+        comment?.let {
             vm.resolveTaskWithComment(taskId, Task.RESOLVED, it)
         } ?: run {
             vm.resolveTask(taskId, Task.RESOLVED)
-       }
+        }
     }
 
-    fun markTaskCantResolve(comment: String? = null){
+    fun markTaskCantResolve(comment: String? = null) {
         comment?.let {
             vm.resolveTaskWithComment(taskId, Task.CANT_RESOLVE, it)
         } ?: run {
@@ -128,7 +177,7 @@ class TaskDetail : Fragment() {
         }
     }
 
-    private fun setBg(color: String, view: View){
+    private fun setBg(color: String, view: View) {
         val backgroundDrawable = MaterialShapeDrawable().apply {
             shapeAppearanceModel = ShapeAppearanceModel.builder()
                 .setAllCornerSizes(12f)

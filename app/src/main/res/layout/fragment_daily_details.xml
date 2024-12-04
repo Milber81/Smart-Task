@@ -55,7 +55,7 @@
         android:paddingStart="10dp"
         android:paddingTop="40dp"
         android:paddingEnd="10dp"
-        android:paddingBottom="20dp"
+        android:paddingBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
@@ -109,13 +109,37 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
+            android:id="@+id/txtComment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/amsipro_regular"
+            android:text="@string/due_date"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/divider"
+            app:layout_constraintTop_toBottomOf="@+id/txtComment"
+            app:layout_constraintBottom_toTopOf="@+id/txtStatus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
             android:id="@+id/txtStatus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/amsipro_bold"
             android:text="@string/due_date"
             android:textColor="@color/primary"
-            android:textSize="10sp"
+            android:textSize="@dimen/regular_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -8,6 +8,7 @@
     <string name="can_t_resolve">Can\'t resolve</string>
     <string name="resolve">Resolve</string>
     <string name="add_comment">Add comment</string>
+    <string name="days_left">Days Left</string>
 
 
 </resources>

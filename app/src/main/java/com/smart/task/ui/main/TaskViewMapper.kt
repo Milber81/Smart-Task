@@ -1,6 +1,9 @@
 package com.smart.task.ui.main
 
-import android.graphics.drawable.Drawable
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import com.smart.task.R
 import com.smart.task.base.ListMapper
 import com.smart.task.base.SingleMapper
@@ -18,6 +21,7 @@ data class TaskViewItem(
     val statusIcon: Int,
     val statusText: String? = null,
     val status: Int? = Task.UNRESOLVED,
+    val comment: String? = null
 ) {
     // Override equals and hashCode to compare content rather than reference
     override fun equals(other: Any?): Boolean {
@@ -95,7 +99,24 @@ class TaskViewMapper : SingleMapper<Task, TaskViewItem> {
                 else -> "Unresolved"
             },
             item.status,
+            (createStyledComment(item.comment) ?: "").toString()
+        )
+    }
 
-            )
+    private fun createStyledComment(comment: String?): SpannableString? {
+        if(comment == null)
+            return null
+        val fullText = "Comment: $comment"
+        val spannable = SpannableString(fullText)
+
+        // Apply bold style to "Comment:"
+        spannable.setSpan(
+            StyleSpan(Typeface.BOLD),
+            0, // Start index
+            8, // End index (length of "Comment: ")
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        return spannable
     }
 }

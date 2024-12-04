@@ -16,7 +16,7 @@ data class AddCommentStyling(val btnText: String, val btnColor: Int)
 
 abstract class AddComment : BottomSheetDialogFragment() {
 
-    abstract fun defineDismissCallback(callback: () -> Unit)
+    abstract fun defineDismissCallback(): (String?) -> Unit
 
     abstract fun defineStyling(): AddCommentStyling
 
@@ -45,8 +45,9 @@ abstract class AddComment : BottomSheetDialogFragment() {
         )
 
         binding.bntApply.setOnClickListener {
+            val comment = binding.edtComment.text.toString()
             dismiss()
-            defineDismissCallback {}
+            defineDismissCallback().invoke(comment)
         }
     }
 
@@ -61,8 +62,9 @@ abstract class AddComment : BottomSheetDialogFragment() {
 }
 
 class AddTaskCommentAndResolve : AddComment() {
-    override fun defineDismissCallback(callback: () -> Unit) {
-        return (parentFragment as TaskDetail).markTaskResolved()
+
+    override fun defineDismissCallback(): (String?) -> Unit = { comment ->
+        (parentFragment as TaskDetail).markTaskResolved(comment)
     }
 
     override fun defineStyling(): AddCommentStyling =
@@ -71,8 +73,8 @@ class AddTaskCommentAndResolve : AddComment() {
 }
 
 class AddTaskCommentAndCantResolve : AddComment() {
-    override fun defineDismissCallback(callback: () -> Unit) {
-        return (parentFragment as TaskDetail).markTaskCantResolve()
+    override fun defineDismissCallback(): (String?) -> Unit = { comment ->
+        (parentFragment as TaskDetail).markTaskCantResolve(comment)
     }
 
     override fun defineStyling(): AddCommentStyling =
