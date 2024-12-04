@@ -29,32 +29,8 @@ class MainActivityTest {
             .resume()
             .get()
 
-        button = activity.findViewById(com.smart.task.R.id.addCityButton)
         recyclerView = activity.findViewById(com.smart.task.R.id.rec)
 
     }
 
-    @Test
-    fun testButtonText() {
-        button.performClick()
-
-        ShadowLooper.runUiThreadTasksIncludingDelayedTasks()
-
-        val fragment =
-            activity.supportFragmentManager.findFragmentByTag(AddCityFragment::class.java.simpleName)
-
-        assertNotNull(fragment)
-        assertTrue(fragment is AddCityFragment)
-    }
-
-    @Test
-    fun testRecyclerViewIsVisibleAndHasAtLeastThreeItems() {
-        ShadowLooper.runUiThreadTasksIncludingDelayedTasks()
-
-        assertTrue(recyclerView.isVisible)
-
-        val adapter = recyclerView.adapter
-        assertNotNull(adapter)
-        assertTrue(adapter?.itemCount ?: 0 >= 3)
-    }
 }

@@ -31,7 +31,7 @@ data class TaskViewItem(
 
 class TaskViewMapper : ListMapper<Task, TaskViewItem> {
 
-    private val sdf = SimpleDateFormat("yyyy-mm-dd", Locale.getDefault())
+    private val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     override suspend fun map(items: List<Task>): List<TaskViewItem> {
         return items.map {

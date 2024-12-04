@@ -1,120 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:id="@+id/mainRoot"
+    tools:context=".ui.main.MainActivity">
 
-    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-        android:id="@+id/bottomSheetDragHandleView"
-        style="@style/Widget.Material3.BottomSheet.DragHandle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="0dp"
+        android:id="@+id/toolbar"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/averageTemperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="80sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dayImage"
-        tools:text="22º"
-        tools:textColor="@android:color/black" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:contentDescription="@string/lot_temp"
-        app:layout_constraintBottom_toTopOf="@+id/lowestTemp"
-        app:layout_constraintEnd_toEndOf="@+id/lowestTemp"
-        app:layout_constraintStart_toStartOf="@+id/lowestTemp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:tint="@color/main_text"
-        tools:tintdob="@android:color/black">
+        android:layout_height="wrap_content">
 
-    </ImageView>
+        <ImageView
+            android:id="@+id/navigateBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:drawablePadding="20dp"
+            android:layout_margin="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/arrow_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@android:color/white" />
 
-    <TextView
-        android:id="@+id/cityName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.Material3.DisplayMedium"
-        app:layout_constraintEnd_toEndOf="parent"
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/title"
+            android:text="Task Detail"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:fontFamily="@font/amsipro_bold"
+            android:gravity="center"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <FrameLayout
+        android:layout_width="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bottomSheetDragHandleView"
-        tools:text="Sabac"
-        tools:textColor="@android:color/black" />
-
-    <ImageView
-        android:id="@+id/dayImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:contentDescription="@string/high_temp"
-        app:layout_constraintBottom_toTopOf="@+id/averageTemperature"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityName" />
+        android:layout_margin="10dp"
+        android:paddingTop="40dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="20dp"
+        android:background="@drawable/task_details"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/lowestTemp"
-        style="@style/TextAppearance.Material3.HeadlineMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/averageTemperature"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/averageTemperature"
-        app:layout_constraintBottom_toBottomOf="@+id/averageTemperature"
-        tools:text="22º"
-        tools:textColor="@android:color/black" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:contentDescription="@string/highest_temp"
-        app:layout_constraintBottom_toTopOf="@+id/highestTemp"
-        app:layout_constraintEnd_toEndOf="@+id/highestTemp"
-        app:layout_constraintStart_toStartOf="@+id/highestTemp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:tint="@color/main_text"
-        tools:tint="@android:color/black" />
-
-    <TextView
-        android:id="@+id/highestTemp"
-        style="@style/TextAppearance.Material3.HeadlineMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/averageTemperature"
-        app:layout_constraintBottom_toBottomOf="@+id/averageTemperature"
-        app:layout_constraintTop_toTopOf="@+id/averageTemperature"
-        tools:text="22º"
-        tools:textColor="@android:color/black" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/main_text"
+                android:id="@+id/txtTitle"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="@font/amsipro_bold"
+                />
+            
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <TextView
-        android:id="@+id/precipitation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/averageTemperature"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="Precipitation: 2.73 mm"
-        android:layout_marginBottom="20dp"
-        tools:textColor="@android:color/black" />
-
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

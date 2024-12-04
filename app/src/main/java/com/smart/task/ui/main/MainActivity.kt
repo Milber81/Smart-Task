@@ -2,22 +2,19 @@ package com.smart.task.ui.main
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.smart.task.R
 import com.smart.task.databinding.ActivityMainBinding
-import com.smart.task.domain.Task
 import com.smart.task.ui.SharedViewModel
 import com.smart.task.ui.UiModule
+import com.smart.task.ui.dailyDetails.TaskDetail
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -48,7 +45,19 @@ class MainActivity : AppCompatActivity() {
         binding.rec.layoutManager = layoutManager
 
         adapter = TasksAdapter(null, {
-
+            val taskDetail = TaskDetail()
+            supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+                )
+                .add(R.id.mainRoot, taskDetail, TaskDetail.TAG)
+                .addToBackStack(TaskDetail.TAG)
+                .commit()
+            //  sharedViewModel.data.e
         }, {
 
         })
@@ -78,20 +87,20 @@ class MainActivity : AppCompatActivity() {
                 println("oooooooo TASKS: $taskItems")
 
                 if (taskItems.isEmpty()) {
-                    if(binding.rec.visibility == View.VISIBLE)
+                    if (binding.rec.visibility == View.VISIBLE)
                         binding.rec.visibility = View.GONE
-                    if(binding.noDataTextView.visibility == View.GONE)
+                    if (binding.noDataTextView.visibility == View.GONE)
                         binding.noDataTextView.visibility = View.VISIBLE
-                    if(binding.noDataImageView.visibility == View.GONE)
+                    if (binding.noDataImageView.visibility == View.GONE)
                         binding.noDataImageView.visibility = View.VISIBLE
                 } else {
                     println("oooooooo TASKS: ------------------")
                     adapter?.swapData(taskItems)
-                    if(binding.noDataTextView.visibility == View.VISIBLE)
+                    if (binding.noDataTextView.visibility == View.VISIBLE)
                         binding.noDataTextView.visibility = View.GONE
-                    if(binding.noDataImageView.visibility == View.VISIBLE)
+                    if (binding.noDataImageView.visibility == View.VISIBLE)
                         binding.noDataImageView.visibility = View.GONE
-                    if(binding.rec.visibility == View.GONE)
+                    if (binding.rec.visibility == View.GONE)
                         binding.rec.visibility = View.VISIBLE
 
                 }

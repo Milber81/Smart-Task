@@ -21,7 +21,8 @@ class TasksDtoMapper(private val dispatcher: CoroutineDispatcher) : ListMapper<T
                 targetDate = it.targetDate.let { date -> sdf.parse(date)?.time }
                     ?: throw IllegalArgumentException("Invalid Target Date"),
                 dueDate = it.dueDate?.let { date -> sdf.parse(date)?.time },
-                priority = it.priority
+                priority = it.priority,
+                _status = Task.UNRESOLVED
             )
         }
     }
