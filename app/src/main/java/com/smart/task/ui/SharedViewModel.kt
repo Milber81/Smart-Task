@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.smart.task.ui.main.TaskViewItem
 import com.smart.task.ui.main.TaskViewMapper
+import com.smart.task.usecases.AddTaskCommentUseCase
 import com.smart.task.usecases.GetTaskByIdUseCase
 import com.smart.task.usecases.SetTaskResolvedUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 class SharedViewModel(
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val setTaskResolvedUseCase: SetTaskResolvedUseCase,
+    private val addTaskCommentUseCase: AddTaskCommentUseCase,
     private val singleTaskMapper: TaskViewMapper
     ) : ViewModel() {
     private val _data = MutableSharedFlow<TaskViewItem?>()

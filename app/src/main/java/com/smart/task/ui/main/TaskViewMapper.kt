@@ -12,7 +12,8 @@ data class TaskViewItem(
     val date: String,
     val daysOffset: String,
     val description: String? = null,
-    val status: String? = null
+    val statusText: String? = null,
+    val status: Int? = Task.UNRESOLVED,
 ) {
     // Override equals and hashCode to compare content rather than reference
     override fun equals(other: Any?): Boolean {
@@ -53,9 +54,16 @@ class TaskViewMapper : SingleMapper<Task, TaskViewItem> {
     override suspend fun map(item: Task): TaskViewItem {
         return TaskViewItem(
             item.id, item.title, sdf.format(item.targetDate),
-            ((item.dueDate?.minus(item.targetDate))?.div((1000 * 60 * 60 * 24)))?.toInt().toString(),
+            ((item.dueDate?.minus(item.targetDate))?.div((1000 * 60 * 60 * 24)))?.toInt()
+                .toString(),
             item.description,
-            if(item.status == Task.UNRESOLVED) "Unresolved" else "Resolved"
+            when (item.status) {
+                Task.UNRESOLVED -> "Unresolved"
+                Task.RESOLVED -> "Resolved"
+                Task.CANT_RESOLVE -> "Can't resolve"
+                else -> "Unresolved"
+            },
+            item.status
         )
     }
 }

@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.smart.task.R
 import com.smart.task.databinding.FragmentDailyDetailsBinding
+import com.smart.task.domain.Task
 import com.smart.task.ui.UiModule
 import kotlinx.coroutines.launch
 
@@ -20,6 +22,7 @@ class TaskDetail : Fragment() {
 
     private lateinit var binding: FragmentDailyDetailsBinding
     private var taskId = ""
+    val vm = UiModule.provideMainViewModel
 
     companion object {
         const val TAG = "dailyDetailsFragment"
@@ -35,7 +38,6 @@ class TaskDetail : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val vm = UiModule.provideMainViewModel
 
         binding.navigateBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
@@ -52,12 +54,34 @@ class TaskDetail : Fragment() {
                     val statusImage = binding.root.findViewById<ImageView>(R.id.imgStatus)
                     dueDate.text = it.date
                     daysLeft.text = it.daysOffset
-                    status.text = it.status
+                    status.text = it.statusText
 
-                    if(it.status == "Resolved"){
-                        statusImage.setImageResource(R.drawable.sign_resolved)
-                    }else{
-                        statusImage.setImageResource(R.drawable.unresolved_sign)
+                    when(it.status){
+                        Task.UNRESOLVED -> {
+                            binding.btnResolve.visibility = View.VISIBLE
+                            binding.btnCantResolve.visibility = View.VISIBLE
+                            statusImage.visibility = View.GONE
+                        }
+                        Task.RESOLVED -> {
+                            binding.btnResolve.visibility = View.GONE
+                            binding.btnCantResolve.visibility = View.GONE
+                            statusImage.setImageResource(R.drawable.sign_resolved)
+                            statusImage.visibility = View.VISIBLE
+                            binding.txtTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
+                            dueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
+                            daysLeft.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
+                            status.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
+                        }
+                        Task.CANT_RESOLVE -> {
+                            binding.btnResolve.visibility = View.VISIBLE
+                            binding.btnCantResolve.visibility = View.VISIBLE
+                            statusImage.setImageResource(R.drawable.sign_resolved)
+                            statusImage.visibility = View.VISIBLE
+                            binding.txtTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_text))
+                            dueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_text))
+                            daysLeft.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_text))
+                            status.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_text))
+                        }
                     }
                 }
             }
@@ -67,12 +91,32 @@ class TaskDetail : Fragment() {
         setBg("#EF4B5E", binding.btnCantResolve)
 
         binding.btnResolve.setOnClickListener {
-            vm.resolveTask(taskId)
+            val addCommentFragment = AddTaskCommentAndResolve()
+
+            if (addCommentFragment.isAdded) {
+                addCommentFragment.dismiss()
+            }
+
+            addCommentFragment.show(childFragmentManager, AddComment.TAG)
         }
 
         binding.btnCantResolve.setOnClickListener {
+            val addCommentFragment = AddTaskCommentAndCantResolve()
 
+            if (addCommentFragment.isAdded) {
+                addCommentFragment.dismiss()
+            }
+
+            addCommentFragment.show(childFragmentManager, AddComment.TAG)
         }
+    }
+
+    fun markTaskResolved(){
+        vm.resolveTask(taskId)
+    }
+
+    fun markTaskCantResolve(){
+        vm.resolveTask(taskId)
     }
 
     private fun setBg(color: String, view: View){
