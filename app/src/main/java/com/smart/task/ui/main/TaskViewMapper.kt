@@ -1,5 +1,7 @@
 package com.smart.task.ui.main
 
+import android.graphics.drawable.Drawable
+import com.smart.task.R
 import com.smart.task.base.ListMapper
 import com.smart.task.base.SingleMapper
 import com.smart.task.domain.Task
@@ -12,6 +14,7 @@ data class TaskViewItem(
     val date: String,
     val daysOffset: String,
     val description: String? = null,
+    val statusIcon: Int,
     val statusText: String? = null,
     val status: Int? = Task.UNRESOLVED,
 ) {
@@ -40,8 +43,17 @@ class TasksViewMapper : ListMapper<Task, TaskViewItem> {
     override suspend fun map(items: List<Task>): List<TaskViewItem> {
         return items.map {
             TaskViewItem(
-                it.id, it.title, sdf.format(it.targetDate),
-                ((it.dueDate?.minus(it.targetDate))?.div((1000 * 60 * 60 * 24)))?.toInt().toString()
+                it.id,
+                it.title,
+                sdf.format(it.targetDate),
+                ((it.dueDate?.minus(it.targetDate))?.div((1000 * 60 * 60 * 24)))?.toInt()
+                    .toString(),
+                statusIcon = when (it.status) {
+                    Task.UNRESOLVED -> -1
+                    Task.RESOLVED -> R.drawable.btn_resolved
+                    Task.CANT_RESOLVE -> R.drawable.btn_unresolved
+                    else -> -1
+                },
             )
         }
     }
@@ -58,12 +70,19 @@ class TaskViewMapper : SingleMapper<Task, TaskViewItem> {
                 .toString(),
             item.description,
             when (item.status) {
+                Task.UNRESOLVED -> -1
+                Task.RESOLVED -> R.drawable.btn_resolved
+                Task.CANT_RESOLVE -> R.drawable.btn_unresolved
+                else -> -1
+            },
+            when (item.status) {
                 Task.UNRESOLVED -> "Unresolved"
                 Task.RESOLVED -> "Resolved"
                 Task.CANT_RESOLVE -> "Can't resolve"
                 else -> "Unresolved"
             },
-            item.status
-        )
+            item.status,
+
+            )
     }
 }

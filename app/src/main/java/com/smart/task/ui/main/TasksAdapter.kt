@@ -7,9 +7,7 @@ import com.smart.task.R
 
 class TasksAdapter(
     private var taskList: List<TaskViewItem>? = null,
-    private val onClickListener: (TaskViewItem) -> Unit,
-    private val onItemRemoveClickListener: (TaskViewItem) -> Unit
-) : RecyclerView.Adapter<TaskViewHolder>() {
+    private val onClickListener: (TaskViewItem) -> Unit) : RecyclerView.Adapter<TaskViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,7 +18,7 @@ class TasksAdapter(
         val taskItem = taskList?.get(position)
 
         if (taskItem != null) {
-            holder.render(taskItem, onClickListener, onItemRemoveClickListener)
+            holder.render(taskItem, onClickListener)
         }
     }
 

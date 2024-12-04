@@ -11,14 +11,19 @@ class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun render(
         viewItem: TaskViewItem,
-        onClickListener: (TaskViewItem) -> Unit,
-        onRemoveItemListener: (TaskViewItem) -> Unit
-    ) {
+        onClickListener: (TaskViewItem) -> Unit) {
         binding.txtTitle.text = viewItem.title
         val dueDate = binding.root.findViewById<TextView>(R.id.dueDate)
         val daysLeft = binding.root.findViewById<TextView>(R.id.daysLeft)
         dueDate.text = viewItem.date
         daysLeft.text = viewItem.daysOffset
+
+        if(viewItem.statusIcon > -1) {
+            binding.imgStatus.setImageResource(viewItem.statusIcon)
+            binding.imgStatus.visibility = View.VISIBLE
+        }
+        else
+            binding.imgStatus.visibility = View.GONE
 
         itemView.setOnClickListener { onClickListener(viewItem) }
     }

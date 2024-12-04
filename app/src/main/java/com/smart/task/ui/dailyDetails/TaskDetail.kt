@@ -48,6 +48,7 @@ class TaskDetail : Fragment() {
                 it?.let { task ->
                     taskId = task.id
                     binding.txtTitle.text = task.title
+                    binding.txtDescription.text = task.description
                     val dueDate = binding.root.findViewById<TextView>(R.id.dueDate)
                     val daysLeft = binding.root.findViewById<TextView>(R.id.daysLeft)
                     val status = binding.root.findViewById<TextView>(R.id.txtStatus)

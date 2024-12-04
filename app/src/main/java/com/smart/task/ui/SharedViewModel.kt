@@ -6,7 +6,6 @@ import com.smart.task.ui.main.TaskViewItem
 import com.smart.task.ui.main.TaskViewMapper
 import com.smart.task.usecases.AddTaskCommentUseCase
 import com.smart.task.usecases.GetTaskByIdUseCase
-import com.smart.task.usecases.SetTaskResolvedUseCase
 import com.smart.task.usecases.SetTaskStatusUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

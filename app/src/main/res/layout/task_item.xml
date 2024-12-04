@@ -30,8 +30,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="Task Title" />
 
-
         <include layout="@layout/task_day_view"/>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/imgStatus"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/daysLeft"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

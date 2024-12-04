@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this@MainActivity)
         binding.rec.layoutManager = layoutManager
 
-        adapter = TasksAdapter(null, {
+        adapter = TasksAdapter(null) {
             val taskDetail = TaskDetail()
             supportFragmentManager
                 .beginTransaction()
@@ -57,10 +57,8 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.mainRoot, taskDetail, TaskDetail.TAG)
                 .addToBackStack(TaskDetail.TAG)
                 .commit()
-              sharedViewModel.postTask(it.id)
-        }, {
-
-        })
+            sharedViewModel.postTask(it.id)
+        }
 
         binding.rec.adapter = adapter
 
