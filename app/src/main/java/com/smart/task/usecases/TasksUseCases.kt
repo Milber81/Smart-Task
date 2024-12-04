@@ -10,6 +10,12 @@ class GetAllTasksUseCase(private val repository: TaskRepository){
     }
 }
 
+class GetTaskByIdUseCase(private val repository: TaskRepository){
+    suspend operator fun invoke(id: String): Task?{
+        return repository.getById(id)
+    }
+}
+
 class GetAllTasksForDayUseCase(private val repository: TaskRepository) {
 
     private var currentDay = System.currentTimeMillis()

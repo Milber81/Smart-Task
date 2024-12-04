@@ -18,10 +18,11 @@
 
         <ImageView
             android:id="@+id/navigatePrevious"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:drawablePadding="20dp"
             android:layout_margin="20dp"
+            android:background="?selectableItemBackgroundBorderless"
             android:layout_gravity="center_vertical"
             android:src="@drawable/arrow_left"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,8 +31,9 @@
 
         <ImageView
             android:id="@+id/navigateNext"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?selectableItemBackgroundBorderless"
             android:layout_gravity="end|center_vertical"
             android:drawablePadding="20dp"
             app:tint="@android:color/white"

@@ -1,6 +1,7 @@
 package com.smart.task.ui.main
 
 import com.smart.task.base.ListMapper
+import com.smart.task.base.SingleMapper
 import com.smart.task.domain.Task
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -9,7 +10,9 @@ data class TaskViewItem(
     val id: String,
     val title: String,
     val date: String,
-    val daysOffset: String
+    val daysOffset: String,
+    val description: String? = null,
+    val status: String? = null
 ) {
     // Override equals and hashCode to compare content rather than reference
     override fun equals(other: Any?): Boolean {
@@ -29,7 +32,7 @@ data class TaskViewItem(
 }
 
 
-class TaskViewMapper : ListMapper<Task, TaskViewItem> {
+class TasksViewMapper : ListMapper<Task, TaskViewItem> {
 
     private val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
@@ -40,5 +43,19 @@ class TaskViewMapper : ListMapper<Task, TaskViewItem> {
                 ((it.dueDate?.minus(it.targetDate))?.div((1000 * 60 * 60 * 24)))?.toInt().toString()
             )
         }
+    }
+}
+
+class TaskViewMapper : SingleMapper<Task, TaskViewItem> {
+
+    private val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+    override suspend fun map(item: Task): TaskViewItem {
+        return TaskViewItem(
+            item.id, item.title, sdf.format(item.targetDate),
+            ((item.dueDate?.minus(item.targetDate))?.div((1000 * 60 * 60 * 24)))?.toInt().toString(),
+            item.description,
+            if(item.status == Task.UNRESOLVED) "Unresolved" else "Resolved"
+        )
     }
 }

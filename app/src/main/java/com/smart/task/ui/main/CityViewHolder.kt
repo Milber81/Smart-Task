@@ -1,7 +1,9 @@
 package com.smart.task.ui.main
 
 import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.smart.task.R
 import com.smart.task.databinding.TaskItemBinding
 
 class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -12,9 +14,11 @@ class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         onClickListener: (TaskViewItem) -> Unit,
         onRemoveItemListener: (TaskViewItem) -> Unit
     ) {
-        binding.title.text = viewItem.title
-        binding.dueDate.text = viewItem.date
-        binding.daysLeft.text = viewItem.daysOffset
+        binding.txtTitle.text = viewItem.title
+        val dueDate = binding.root.findViewById<TextView>(R.id.dueDate)
+        val daysLeft = binding.root.findViewById<TextView>(R.id.daysLeft)
+        dueDate.text = viewItem.date
+        daysLeft.text = viewItem.daysOffset
 
         itemView.setOnClickListener { onClickListener(viewItem) }
     }

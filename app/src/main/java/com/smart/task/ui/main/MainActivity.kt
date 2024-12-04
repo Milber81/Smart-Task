@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.mainRoot, taskDetail, TaskDetail.TAG)
                 .addToBackStack(TaskDetail.TAG)
                 .commit()
-            //  sharedViewModel.data.e
+              sharedViewModel.postTask(it.id)
         }, {
 
         })

@@ -17,7 +17,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/txtTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/main_text"
@@ -30,65 +30,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="Task Title" />
 
-        <View
-            android:layout_width="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/divider"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/divider"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            android:layout_height="1.5dp"/>
 
-        <TextView
-            android:id="@+id/dueDateLabel"
-            android:layout_width="0dp"
-            android:text="@string/due_date"
-            android:textSize="10sp"
-            android:fontFamily="@font/amsipro_regular"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
-
-        <TextView
-            android:id="@+id/dueDate"
-            android:layout_width="0dp"
-            android:text="@string/due_date"
-            android:textSize="15sp"
-            android:layout_marginTop="7dp"
-            android:fontFamily="@font/amsipro_bold"
-            android:layout_height="wrap_content"
-            android:textColor="@color/main_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dueDateLabel"
-            tools:text="Sabac, Serbia" />
-
-        <TextView
-            android:id="@+id/daysLeftLabel"
-            android:layout_width="0dp"
-            android:text="Days Left"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:layout_marginTop="7dp"
-            android:fontFamily="@font/amsipro_regular"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
-            tools:text="Sabac, Serbia" />
-
-        <TextView
-            android:id="@+id/daysLeft"
-            android:layout_width="0dp"
-            android:textSize="15sp"
-            android:layout_marginTop="7dp"
-            android:fontFamily="@font/amsipro_bold"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/main_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dueDateLabel"
-            tools:text="Sabac, Serbia" />
-
+        <include layout="@layout/task_day_view"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

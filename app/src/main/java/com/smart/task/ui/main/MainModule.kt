@@ -10,7 +10,7 @@ import com.smart.task.usecases.GetAllTasksForDayUseCase
 
 object MainModule {
 
-    private val tasksRepository = TaskRepositoryImpl(
+    val tasksRepository = TaskRepositoryImpl(
         DataModule.dataStoreHelper,
         DataModule.remoteDataSource
     )
@@ -28,5 +28,5 @@ object MainModule {
     }
 
     val getAllTasksForDayUseCase = GetAllTasksForDayUseCase(tasksRepository)
-    val taskViewMapper = TaskViewMapper()
+    val taskViewMapper = TasksViewMapper()
 }
