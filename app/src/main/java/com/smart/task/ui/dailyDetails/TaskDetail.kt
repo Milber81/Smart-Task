@@ -74,9 +74,9 @@ class TaskDetail : Fragment() {
                             status.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
                         }
                         Task.CANT_RESOLVE -> {
-                            binding.btnResolve.visibility = View.VISIBLE
-                            binding.btnCantResolve.visibility = View.VISIBLE
-                            statusImage.setImageResource(R.drawable.sign_resolved)
+                            binding.btnResolve.visibility = View.GONE
+                            binding.btnCantResolve.visibility = View.GONE
+                            statusImage.setImageResource(R.drawable.unresolved_sign)
                             statusImage.visibility = View.VISIBLE
                             binding.txtTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_text))
                             dueDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_text))

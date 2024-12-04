@@ -6,10 +6,8 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.smart.task.R
 import com.smart.task.databinding.ActivityMainBinding
 import com.smart.task.ui.SharedViewModel
@@ -33,8 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var isFirstAppStart: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -45,18 +41,7 @@ class MainActivity : AppCompatActivity() {
         binding.rec.layoutManager = layoutManager
 
         adapter = TasksAdapter(null) {
-            val taskDetail = TaskDetail()
-            supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.slide_in_right,
-                    R.anim.slide_out_left,
-                    R.anim.slide_in_left,
-                    R.anim.slide_out_right
-                )
-                .add(R.id.mainRoot, taskDetail, TaskDetail.TAG)
-                .addToBackStack(TaskDetail.TAG)
-                .commit()
+            navigateToTaskDetail()
             sharedViewModel.postTask(it.id)
         }
 
@@ -73,16 +58,28 @@ class MainActivity : AppCompatActivity() {
         createObservers()
     }
 
+    private fun navigateToTaskDetail(){
+        val taskDetail = TaskDetail()
+        supportFragmentManager
+            .beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            )
+            .add(R.id.mainRoot, taskDetail, TaskDetail.TAG)
+            .addToBackStack(TaskDetail.TAG)
+            .commit()
+    }
+
 
     private fun createObservers() {
-        println("oooooooo CREAT OBSERVERS")
-
         lifecycleScope.launch {
             viewModel.tasks.collect { dataPair ->
 
                 val taskItems = dataPair.second
                 binding.title.text = dataPair.first
-                println("oooooooo TASKS: $taskItems")
 
                 if (taskItems.isEmpty()) {
                     if (binding.rec.visibility == View.VISIBLE)
@@ -92,7 +89,6 @@ class MainActivity : AppCompatActivity() {
                     if (binding.noDataImageView.visibility == View.GONE)
                         binding.noDataImageView.visibility = View.VISIBLE
                 } else {
-                    println("oooooooo TASKS: ------------------")
                     adapter?.swapData(taskItems)
                     if (binding.noDataTextView.visibility == View.VISIBLE)
                         binding.noDataTextView.visibility = View.GONE
@@ -114,13 +110,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (viewModel.isNetworkAvailable(this)) {
-            if (isFirstAppStart) {
-                AppCompatDelegate.getApplicationLocales()
-
-                showSpecialMessage()
-            }
-        } else {
+        if (!viewModel.isNetworkAvailable(this)) {
             showNoInternetMessage()
         }
     }
@@ -142,12 +132,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun showNoInternetMessage() {
         showSpecialMessage()
-    }
-
-    override fun onDestroy() {
-
-        super.onDestroy()
-        Glide.get(this).clearMemory()
     }
 }
 

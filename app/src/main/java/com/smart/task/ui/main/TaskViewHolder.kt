@@ -18,6 +18,10 @@ class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         dueDate.text = viewItem.date
         daysLeft.text = viewItem.daysOffset
 
+//        binding.txtTitle.setTextColor(viewItem.color)
+//        dueDate.setTextColor(viewItem.color)
+//        daysLeft.setTextColor(viewItem.color)
+
         if(viewItem.statusIcon > -1) {
             binding.imgStatus.setImageResource(viewItem.statusIcon)
             binding.imgStatus.visibility = View.VISIBLE

@@ -14,6 +14,7 @@ data class TaskViewItem(
     val date: String,
     val daysOffset: String,
     val description: String? = null,
+    val color: Int,
     val statusIcon: Int,
     val statusText: String? = null,
     val status: Int? = Task.UNRESOLVED,
@@ -48,6 +49,12 @@ class TasksViewMapper : ListMapper<Task, TaskViewItem> {
                 sdf.format(it.targetDate),
                 ((it.dueDate?.minus(it.targetDate))?.div((1000 * 60 * 60 * 24)))?.toInt()
                     .toString(),
+                color = when (it.status) {
+                    Task.UNRESOLVED -> R.color.primary
+                    Task.RESOLVED -> R.color.green
+                    Task.CANT_RESOLVE -> R.color.main_text
+                    else -> -1
+                },
                 statusIcon = when (it.status) {
                     Task.UNRESOLVED -> -1
                     Task.RESOLVED -> R.drawable.btn_resolved
@@ -69,6 +76,12 @@ class TaskViewMapper : SingleMapper<Task, TaskViewItem> {
             ((item.dueDate?.minus(item.targetDate))?.div((1000 * 60 * 60 * 24)))?.toInt()
                 .toString(),
             item.description,
+            color = when (item.status) {
+                Task.UNRESOLVED -> R.color.primary
+                Task.RESOLVED -> R.color.green
+                Task.CANT_RESOLVE -> R.color.main_text
+                else -> -1
+            },
             when (item.status) {
                 Task.UNRESOLVED -> -1
                 Task.RESOLVED -> R.drawable.btn_resolved
