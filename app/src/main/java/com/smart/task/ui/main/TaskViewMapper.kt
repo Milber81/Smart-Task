@@ -99,24 +99,7 @@ class TaskViewMapper : SingleMapper<Task, TaskViewItem> {
                 else -> "Unresolved"
             },
             item.status,
-            (createStyledComment(item.comment) ?: "").toString()
+            item.comment
         )
-    }
-
-    private fun createStyledComment(comment: String?): SpannableString? {
-        if(comment == null)
-            return null
-        val fullText = "Comment: $comment"
-        val spannable = SpannableString(fullText)
-
-        // Apply bold style to "Comment:"
-        spannable.setSpan(
-            StyleSpan(Typeface.BOLD),
-            0, // Start index
-            8, // End index (length of "Comment: ")
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        return spannable
     }
 }

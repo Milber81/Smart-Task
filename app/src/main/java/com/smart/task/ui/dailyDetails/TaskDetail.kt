@@ -1,7 +1,11 @@
 package com.smart.task.ui.dailyDetails
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,8 +61,9 @@ class TaskDetail : Fragment() {
                     daysLeft.text = it.daysOffset
                     status.text = it.statusText
                     if (it.comment?.isNotEmpty() == true) {
-                        binding.txtComment.text = it.comment
+                        binding.txtComment.text = (createStyledComment(it.comment) ?: "")
                         binding.txtComment.visibility = View.VISIBLE
+                        binding.divider4.visibility = View.VISIBLE
                     } else {
                         binding.divider4.visibility = View.GONE
                         binding.txtComment.visibility = View.GONE
@@ -186,5 +191,22 @@ class TaskDetail : Fragment() {
         }
 
         view.background = backgroundDrawable
+    }
+
+    private fun createStyledComment(comment: String?): SpannableString? {
+        if(comment == null)
+            return null
+        val fullText = "Comment: $comment"
+        val spannable = SpannableString(fullText)
+
+        // Apply bold style to "Comment:"
+        spannable.setSpan(
+            StyleSpan(Typeface.BOLD),
+            0, // Start index
+            8, // End index (length of "Comment: ")
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        return spannable
     }
 }
