@@ -33,7 +33,6 @@ class MainViewModel(
     private val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     init {
-        println("oooooo vmvmvmvmvmvmvmvmvmv")
         getTasksForToday()
     }
 

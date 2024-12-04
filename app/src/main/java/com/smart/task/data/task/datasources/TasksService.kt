@@ -20,7 +20,6 @@ class TasksRemoteService(
         return withContext(dispatcher) {
             val response: Response<TaskList> =
                 api.getTasks()
-            println("ooooooo TasksRemoteService fetchAll ${response.body()}")
             mapper.map(response.body()!!.tasks)
         }
     }

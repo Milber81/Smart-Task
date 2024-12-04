@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this@MainActivity)
         binding.rec.layoutManager = layoutManager
 
-        adapter = TasksAdapter(null) {
+        adapter = TasksAdapter {
             navigateToTaskDetail()
             sharedViewModel.postTask(it.id)
         }
@@ -104,6 +104,12 @@ class MainActivity : AppCompatActivity() {
         viewModel.loadingState.observe(this) {
             if (it) showProgressBar()
             else hideProgressBar()
+        }
+
+        lifecycleScope.launch {
+            sharedViewModel.data.collect{
+                it?.let { it1 -> adapter?.updateTaskViewItem(it1) }
+            }
         }
     }
 
