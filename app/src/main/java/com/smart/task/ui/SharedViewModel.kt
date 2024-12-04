@@ -7,13 +7,14 @@ import com.smart.task.ui.main.TaskViewMapper
 import com.smart.task.usecases.AddTaskCommentUseCase
 import com.smart.task.usecases.GetTaskByIdUseCase
 import com.smart.task.usecases.SetTaskResolvedUseCase
+import com.smart.task.usecases.SetTaskStatusUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 class SharedViewModel(
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    private val setTaskResolvedUseCase: SetTaskResolvedUseCase,
+    private val setTaskStatusUseCase: SetTaskStatusUseCase,
     private val addTaskCommentUseCase: AddTaskCommentUseCase,
     private val singleTaskMapper: TaskViewMapper
     ) : ViewModel() {
@@ -29,9 +30,18 @@ class SharedViewModel(
         }
     }
 
-    fun resolveTask(taskId: String){
+    fun resolveTask(taskId: String, status: Int){
         viewModelScope.launch {
-            setTaskResolvedUseCase.invoke(taskId)
+            setTaskStatusUseCase.invoke(taskId, status)
+            postTask(taskId)
+        }
+    }
+
+    fun resolveTaskWithComment(taskId: String, status: Int, comment: String){
+        viewModelScope.launch {
+            comment.let {
+                addTaskCommentUseCase.invoke(comment, status, taskId)
+            }
             postTask(taskId)
         }
     }

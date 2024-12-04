@@ -111,12 +111,20 @@ class TaskDetail : Fragment() {
         }
     }
 
-    fun markTaskResolved(){
-        vm.resolveTask(taskId)
+    fun markTaskResolved(comment: String? = null){
+       comment?.let {
+            vm.resolveTaskWithComment(taskId, Task.RESOLVED, it)
+        } ?: run {
+            vm.resolveTask(taskId, Task.RESOLVED)
+       }
     }
 
-    fun markTaskCantResolve(){
-        vm.resolveTask(taskId)
+    fun markTaskCantResolve(comment: String? = null){
+        comment?.let {
+            vm.resolveTaskWithComment(taskId, Task.CANT_RESOLVE, it)
+        } ?: run {
+            vm.resolveTask(taskId, Task.CANT_RESOLVE)
+        }
     }
 
     private fun setBg(color: String, view: View){
