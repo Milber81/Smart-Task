@@ -31,12 +31,12 @@ class TasksAdapter(
 
     fun updateTaskViewItem(viewItem: TaskViewItem) {
         taskList?.let { currentList ->
-            val index = currentList.indexOfFirst { it.id == viewItem.id } 
+            val index = currentList.indexOfFirst { it.id == viewItem.id }
             if (index != -1) {
                 val updatedList = currentList.toMutableList()
                 updatedList[index] = viewItem
                 taskList = updatedList
-                notifyItemChanged(index) // Notify only the specific item that was changed
+                notifyItemChanged(index)
             }
         }
     }

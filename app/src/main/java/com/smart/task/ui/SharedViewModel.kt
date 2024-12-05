@@ -37,7 +37,6 @@ class SharedViewModel(
     }
 
     fun resolveTaskWithComment(taskId: String, status: Int, comment: String){
-        println("ooooooo resolve sa komentarom $status $comment")
         viewModelScope.launch {
             comment.let {
                 addTaskCommentUseCase.invoke(comment, status, taskId)

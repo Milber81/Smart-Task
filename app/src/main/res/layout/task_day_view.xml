@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/dueDateLabel"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/due_date"
         style="@style/BodyTextStyle"
@@ -26,10 +26,9 @@
 
     <TextView
         android:id="@+id/dueDate"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:text="@string/due_date"
         style="@style/TitleTextStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dueDateLabel"
@@ -37,7 +36,7 @@
 
     <TextView
         android:id="@+id/daysLeftLabel"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/days_left"
         android:layout_marginTop="10dp"
@@ -48,9 +47,8 @@
 
     <TextView
         android:id="@+id/daysLeft"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="7dp"
         style="@style/TitleTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
