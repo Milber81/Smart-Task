@@ -21,7 +21,7 @@ object UiModule {
             getTaskByIdUseCase,
             setTaskStatusUseCase,
             addTaskCommentUseCase,
-            singleTaskMapper
+            singleTaskMapper,
         )
     }
 

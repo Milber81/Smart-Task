@@ -17,14 +17,16 @@ class SharedViewModel(
     private val addTaskCommentUseCase: AddTaskCommentUseCase,
     private val singleTaskMapper: TaskViewMapper
     ) : ViewModel() {
+
     private val _data = MutableStateFlow<TaskViewItem?>(null)
     val data: StateFlow<TaskViewItem?> get() = _data
 
     fun postTask(taskId: String) {
         viewModelScope.launch {
+            _data.value = null
             val mTask = getTaskByIdUseCase.invoke(taskId)
             mTask?.let {
-                _data.emit(singleTaskMapper.map( it))
+                _data.emit(singleTaskMapper.map(it))
             }
         }
     }
