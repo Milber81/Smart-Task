@@ -1,9 +1,5 @@
 package com.smart.task.ui.main
 
-import android.graphics.Typeface
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.StyleSpan
 import com.smart.task.R
 import com.smart.task.base.ListMapper
 import com.smart.task.base.SingleMapper
@@ -22,24 +18,7 @@ data class TaskViewItem(
     val statusText: String? = null,
     val status: Int? = Task.UNRESOLVED,
     val comment: String? = null
-) {
-    // Override equals and hashCode to compare content rather than reference
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as TaskViewItem
-        return id == other.id
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + title.hashCode()
-        result = 31 * result + date.hashCode()
-        result = 31 * result + daysOffset.hashCode()
-        return result
-    }
-}
-
+)
 
 class TasksViewMapper : ListMapper<Task, TaskViewItem> {
 

@@ -49,17 +49,13 @@ class GetAllTasksForDayUseCase(private val repository: TaskRepository) {
 
 class SetTaskStatusUseCase(private val repository: TaskRepository) {
     suspend operator fun invoke(taskId: String, status: Int) {
-        // Retrieve the task by its ID
         val taskOfInterest = repository.getById(taskId)
 
         if (taskOfInterest != null) {
-            // Update the task with the resolved status
             val updatedTask = taskOfInterest.copy(_status = status)
 
-            // Save the updated task back to the repository
             repository.updateTask(updatedTask)
         } else {
-            // Handle the case where the task is not found
             throw IllegalArgumentException("Task with ID $taskId not found")
         }
     }
@@ -68,17 +64,13 @@ class SetTaskStatusUseCase(private val repository: TaskRepository) {
 
 class AddTaskCommentUseCase(private val repository: TaskRepository) {
     suspend operator fun invoke(comment: String, status: Int, taskId: String) {
-        // Retrieve the task by its ID
         val taskOfInterest = repository.getById(taskId)
 
         if (taskOfInterest != null) {
-            // Update the task with the new comment
             val updatedTask = taskOfInterest.copy(_status = status, comment = comment)
 
-            // Save the updated task back to the repository
             repository.updateTask(updatedTask)
         } else {
-            // Handle the case where the task is not found (optional)
             throw IllegalArgumentException("Task with ID $taskId not found")
         }
     }

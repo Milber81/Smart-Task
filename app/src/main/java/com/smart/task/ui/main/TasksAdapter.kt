@@ -31,7 +31,7 @@ class TasksAdapter(
 
     fun updateTaskViewItem(viewItem: TaskViewItem) {
         taskList?.let { currentList ->
-            val index = currentList.indexOfFirst { it.id == viewItem.id } // Use unique ID to find the item
+            val index = currentList.indexOfFirst { it.id == viewItem.id } 
             if (index != -1) {
                 val updatedList = currentList.toMutableList()
                 updatedList[index] = viewItem
