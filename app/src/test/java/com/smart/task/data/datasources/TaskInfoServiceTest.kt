@@ -1,4 +1,4 @@
-package com.smart.task.data.datasources.openweather
+package com.smart.task.data.datasources
 
 import com.smart.task.domain.Task
 import org.junit.Assert.assertEquals
