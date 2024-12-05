@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +20,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.smart.task.R
 import com.smart.task.databinding.FragmentDailyDetailsBinding
 import com.smart.task.domain.Task
+import com.smart.task.ui.SharedViewModel
 import com.smart.task.ui.UiModule
 import kotlinx.coroutines.launch
 
@@ -26,7 +28,9 @@ class TaskDetail : Fragment() {
 
     private lateinit var binding: FragmentDailyDetailsBinding
     private var taskId = ""
-    val vm = UiModule.provideMainViewModel
+    private val vm: SharedViewModel by lazy {
+        UiModule.getSharedViewModel(requireActivity() as AppCompatActivity)
+    }
 
     companion object {
         const val TAG = "dailyDetailsFragment"

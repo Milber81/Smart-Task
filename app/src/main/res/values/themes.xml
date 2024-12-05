@@ -31,6 +31,18 @@
         <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
     </style>
 
+    <style name="TitleTextStyle">
+        <item name="android:fontFamily">@font/amsipro_bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/main_text</item>
+    </style>
+
+    <style name="BodyTextStyle">
+        <item name="android:fontFamily">@font/amsipro_regular</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
     <style name="ModalBottomSheet" parent="Widget.Material3.BottomSheet.Modal"/>
 
     <style name="ModalBottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">

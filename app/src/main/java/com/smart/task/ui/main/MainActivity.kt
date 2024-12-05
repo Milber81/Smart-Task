@@ -18,15 +18,12 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private var adapter: TasksAdapter? = null
-    private val viewModel: MainViewModel by viewModels {
-        MainModule.MainViewModelFactory(
-            getAllTasksForDayUseCase = MainModule.getAllTasksForDayUseCase,
-            mapper = MainModule.taskViewMapper
-        )
+    private val viewModel by lazy {
+        MainModule.getMainViewModel(this)
     }
 
     private val sharedViewModel: SharedViewModel by lazy {
-        UiModule.provideMainViewModel
+        UiModule.getSharedViewModel(this)
     }
 
     private lateinit var binding: ActivityMainBinding

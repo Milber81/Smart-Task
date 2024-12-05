@@ -7,8 +7,8 @@ import com.smart.task.ui.main.TaskViewMapper
 import com.smart.task.usecases.AddTaskCommentUseCase
 import com.smart.task.usecases.GetTaskByIdUseCase
 import com.smart.task.usecases.SetTaskStatusUseCase
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SharedViewModel(
@@ -17,8 +17,8 @@ class SharedViewModel(
     private val addTaskCommentUseCase: AddTaskCommentUseCase,
     private val singleTaskMapper: TaskViewMapper
     ) : ViewModel() {
-    private val _data = MutableSharedFlow<TaskViewItem?>()
-    val data: SharedFlow<TaskViewItem?> get() = _data
+    private val _data = MutableStateFlow<TaskViewItem?>(null)
+    val data: StateFlow<TaskViewItem?> get() = _data
 
     fun postTask(taskId: String) {
         viewModelScope.launch {

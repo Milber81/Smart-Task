@@ -1,11 +1,10 @@
 package com.smart.task.ui.main
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.smart.task.base.ListMapper
 import com.smart.task.data.task.TaskRepositoryImpl
 import com.smart.task.di.DataModule
-import com.smart.task.domain.Task
 import com.smart.task.usecases.GetAllTasksForDayUseCase
 
 object MainModule {
@@ -15,18 +14,32 @@ object MainModule {
         DataModule.remoteDataSource
     )
 
-    class MainViewModelFactory(
-        private val getAllTasksForDayUseCase: GetAllTasksForDayUseCase,
-        private val mapper: ListMapper<Task, TaskViewItem>
-    ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-                return MainViewModel(getAllTasksForDayUseCase, mapper) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
+    fun getMainViewModel(activity: AppCompatActivity): MainViewModel {
+        return ViewModelProvider(activity, mainViewModelFactory)[MainViewModel::class.java]
     }
 
-    val getAllTasksForDayUseCase = GetAllTasksForDayUseCase(tasksRepository)
-    val taskViewMapper = TasksViewMapper()
+    private val mainViewModelFactory = GenericViewModelFactory {
+        MainViewModel(
+            getAllTasksForDayUseCase,
+            taskViewMapper
+        )
+    }
+
+    private val getAllTasksForDayUseCase = GetAllTasksForDayUseCase(tasksRepository)
+    private val taskViewMapper = TasksViewMapper()
 }
+
+class GenericViewModelFactory<T : ViewModel>(
+    private val creator: () -> T
+) : ViewModelProvider.Factory {
+
+    override fun <VM : ViewModel> create(modelClass: Class<VM>): VM {
+        if (modelClass.isAssignableFrom(creator.invoke()::class.java)) {
+            return creator.invoke() as VM
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
+
+
